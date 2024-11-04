@@ -1,0 +1,24 @@
+GET  http://localhost:5174/api/product HTTP/1.1
+
+###
+POST http://localhost:5174/api/user/login HTTP/1.1
+
+content-Type: application/json
+
+{
+    "email":"wahedm@gmail9.com",
+    "password":"1234579444"
+}
+
+
+###
+POST http://localhost:5174/api/user/register HTTP/1.1
+
+content-Type: application/json
+
+{
+    "email":"sevda@gmail.com",
+    "password":"12344",
+    "name":"sevda mj",
+    "phoneNumber":"09058262563"
+}
