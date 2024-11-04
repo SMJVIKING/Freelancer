@@ -17,3 +17,10 @@ function AppLayout() {
 }
 
 export default AppLayout;
+ 
+
+// میخایم این قسمت داینامیک باشه:
+// owner,admin,freelancer(multi app layout)
+// owner=> Dashboard,project,..
+// freelancer=> Dashboard,proposal,transaction,..
+// admin=> user,project,proposal ,..

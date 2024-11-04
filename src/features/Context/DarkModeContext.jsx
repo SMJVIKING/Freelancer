@@ -5,9 +5,10 @@ import useLocalStorageState from "../../hooks/useLocalStorageState";
 const DarkModeContext = createContext();
 
 export function DarkModeProvider({ children }) {
-  const { isDarkMode, setIsDarkMode } = useLocalStorageState(
-    "isDarkMode",
-    false
+  const [isDarkMode, setIsDarkMode] = useLocalStorageState(
+    "isDarkMoode",
+    // این بخش تم سایت رو مطابق با تم سیستم ست میکنه ینی دارک باشه دارک و بالعکس
+    window.matchMedia("(prefers-color-scheme:dark)").matches //true/false);
   );
 
   const toggleDarkMode = () => setIsDarkMode((prev) => !prev);
@@ -45,3 +46,8 @@ export function useDarkMode() {
 // 2.call provider method of context
 // 3.get values
 // 4.create a custom hook to => we can use context eveywhere
+
+// (prefers-color-scheme:dark) =>
+//  پراپرتی خود مرورگر ک نشون میده تم دارک داره یا لایت
+
+// =>نکته مهم اینه ک اینا حتما باید داخل پرانتز باشن
