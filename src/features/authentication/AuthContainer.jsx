@@ -5,8 +5,24 @@ import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { getOtp } from "../../services/authService";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import useUser from "./useUser";
+import { useEffect } from "react";
 
 function AuthContainer() {
+  const navigate = useNavigate();
+  const { user } = useUser();
+
+  const [step, setStep] = useState(1);
+  // const [phoneNumber, setPhoneNumber] = useState("");
+  const { register, handleSubmit, getValues } = useForm();
+
+
+  useEffect(() => {
+    if (user) navigate("/home", { replace: true });
+  }, [user, navigate]);
+
+
   const {
     isPending: isSendingOtp,
     mutateAsync,
@@ -17,17 +33,13 @@ function AuthContainer() {
   // isPending=isLoading
   const sendOtpHandler = async (data) => {
     try {
-      const {message} = await mutateAsync(data);
+      const { message } = await mutateAsync(data);
       setStep(2);
       toast.success(message);
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
   };
-
-  const [step, setStep] = useState(1);
-  // const [phoneNumber, setPhoneNumber] = useState("");
-  const { register, handleSubmit,getValues } = useForm();
 
   const renderStep = () => {
     switch (step) {
@@ -62,6 +74,5 @@ function AuthContainer() {
 export default AuthContainer;
 
 // onBack={() => setStep(1)} or onBack={() => setStep((s)=>s-1)}
-
 
 // getValues => میگه ولیو چ فیلدی رو میخای تا اون ولیو رو بهت بدم

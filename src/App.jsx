@@ -5,11 +5,20 @@ import { Toaster } from "react-hot-toast";
 import CompleteProfile from "./pages/CompleteProfile";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
-import AppLayout from "./ui/AppLayout";
 import OwnerDashboard from "./pages/OwnerDashboard";
 import Project from "./pages/Project";
 import Projects from "./pages/Projects";
 import { DarkModeProvider } from "./features/Context/DarkModeContext";
+import OwnerLayout from "./features/owner/OwnerLayout";
+import FreelancerDashboard from "./pages/FreelancerDashboard.jsx";
+import Proposal from "./pages/Proposal.jsx";
+import SubmitedProjects from "./pages/SubmitedProjects.jsx";
+import FreelancerLayout from "./features/freelancer/FreelancerLayout.jsx";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ProtectedRoute from "./ui/ProtectedRoute.jsx";
+import AdminLayout from "./features/admin/AdminLayout";
+import AdminDashboard from "./features/admin/DashboardLayout.jsx";
+import Users from "./pages/Users.jsx";
 
 // این بخش مربوط ب ریکت کوئری هس ک ب جای اکسیوس ازش استفاده میکنیم
 const queryClient = new QueryClient();
@@ -18,17 +27,55 @@ function App() {
   return (
     <DarkModeProvider>
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
         <Toaster />
         <Routes>
-          <Route path="/" element={<Auth />} />
+          <Route path="/" element={<Navigate to="/auth" replace />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
 
-          <Route path="/owner" element={<AppLayout />}>
+          <Route
+            path="/owner"
+            element={
+              <ProtectedRoute>
+                <OwnerLayout />
+              </ProtectedRoute>
+            }
+          >
             {/* <Route index element={<OwnerDashboard />} /> it's wrong */}
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<OwnerDashboard />} />
             <Route path="projects" element={<Projects />} />
             <Route path="projects/:id" element={<Project />} />
+          </Route>
+
+          <Route
+            path="/freelancer"
+            element={
+              <ProtectedRoute>
+                <FreelancerLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<FreelancerDashboard />} />
+            <Route path="proposals" element={<Proposal />} />
+            <Route path="projects" element={<SubmitedProjects />} />
+          </Route>
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="users" element={<Users />} />
+            <Route path="proposals" element={<Proposal />} />
+            <Route path="projects" element={<SubmitedProjects />} />
           </Route>
 
           <Route path="/home" element={<Home />} />
@@ -67,3 +114,6 @@ export default App;
 // 2.ب این روش میگن شخصی سازی کلس های تیلویند:
 // تو این روش ی اسم کلاس میدی ب اون تگ بعد میری تو فایل index.css
 //  با کمک layer بهش استایل میدی
+
+// authenticate: who is he/she : name ,.. (احراز هویت)
+// authorized: permission , access to route or file (محدودیت دسترسی)

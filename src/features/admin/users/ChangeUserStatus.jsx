@@ -1,9 +1,8 @@
 import { useForm } from "react-hook-form";
-import RHFSelect from "../../ui/RHFSelect";
-import useChangeProposalStatus from "./useChangeProposalStatus";
-import Loading from "../../ui/Loading";
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import useChangeUserStatus from "./useChangeUserStatus";
+import RHFSelect from "../../../ui/RHFSelect";
+import Loading from "../../../ui/Loading";
 
 const options = [
   {
@@ -20,27 +19,25 @@ const options = [
   },
 ];
 
-function ChangeProposalStatus({ proposalId, onClose }) {
-  const { id: projectId } = useParams();
+function ChangeUserStatus({ userId, onClose }) {
   const { register, handleSubmit } = useForm();
-  const { isUpdating, changeProposalStatus } = useChangeProposalStatus();
+  const { isUpdating, changeUserStatus } = useChangeUserStatus();
   const queryClient = useQueryClient();
 
   const onSubmit = (data) => {
-    const status = data.status;
-    changeProposalStatus(
-      { proposalId, status, projectId }, 
+    changeUserStatus(
+      { userId, data }, //{ userId, data :{status:0,1,2}}
+      // نکته پایین صفحه=>
       {
         onSuccess: () => {
           onClose();
           queryClient.invalidateQueries({
-            queryKey: ["project", projectId],
+            queryKey: ["users"],
           });
         },
       }
     );
   };
-  
 
   return (
     <div>
@@ -65,4 +62,12 @@ function ChangeProposalStatus({ proposalId, onClose }) {
     </div>
   );
 }
-export default ChangeProposalStatus;
+export default ChangeUserStatus;
+
+// { userId, ...data }=>چرا اینجوری ننوشتیم با اسپرید اوپریتور؟
+// چون وقتی اسپرید اوپریتور میزنیم=> اونوقت باید خود مقدار استیتوس رو به ای پی ای پاس بدیم و ب صورت ابجکت هم پاس بدیم
+// export function changeUserStatusApi({ userId, status }) {
+//   return http
+//     .patch(`/admin/user/verify/${userId}`, {status})
+//     .then(({ data }) => data.data);
+// }
