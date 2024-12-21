@@ -19,6 +19,7 @@ import ProtectedRoute from "./ui/ProtectedRoute.jsx";
 import AdminLayout from "./features/admin/AdminLayout";
 import AdminDashboard from "./features/admin/DashboardLayout.jsx";
 import Users from "./pages/Users.jsx";
+import AboutUs from "./ui/AboutUs.jsx";
 
 // این بخش مربوط ب ریکت کوئری هس ک ب جای اکسیوس ازش استفاده میکنیم
 const queryClient = new QueryClient();
@@ -30,7 +31,7 @@ function App() {
         <ReactQueryDevtools initialIsOpen={false} />
         <Toaster />
         <Routes>
-          <Route path="/" element={<Navigate to="/auth" replace />} />
+          {/* <Route path="/" element={<Navigate to="/auth" replace />} /> */}
           <Route path="/auth" element={<Auth />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
 
@@ -78,8 +79,10 @@ function App() {
             <Route path="projects" element={<SubmitedProjects />} />
           </Route>
 
+          <Route index element={<Navigate to="home" replace />} />
           <Route path="/home" element={<Home />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
         </Routes>
       </QueryClientProvider>
     </DarkModeProvider>

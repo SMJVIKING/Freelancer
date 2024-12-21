@@ -19,7 +19,7 @@ function AuthContainer() {
 
 
   useEffect(() => {
-    if (user) navigate("/home", { replace: true });
+    if (user) navigate("/auth", { replace: true });
   }, [user, navigate]);
 
 

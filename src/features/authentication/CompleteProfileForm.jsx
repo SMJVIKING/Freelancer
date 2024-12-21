@@ -19,7 +19,7 @@ function CompleteProfileForm() {
   // const [role, setRole] = useState("");
   const navigate = useNavigate();
 
-  const { isPending, mutateAsync, data } = useMutation({
+  const { isPending, mutateAsync} = useMutation({
     mutationFn: completeProfileOtp,
   });
 
@@ -45,6 +45,7 @@ function CompleteProfileForm() {
       <div className="w-full sm:max-w-sm">
         <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
           <TextField
+          className="text-secondary-400"
             label="نام و نام خانوادگی"
             name="name"
             register={register}
